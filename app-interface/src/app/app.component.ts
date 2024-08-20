@@ -1,45 +1,45 @@
-import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { AfterViewInit, Component, ElementRef } from '@angular/core';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./template/navbar/navbar.component";
 import { SidebarComponent } from './template/sidebar/sidebar.component';
 import { HomeComponent } from "./home/home.component";
+import jQuery from 'jquery';
+import { ClientesFormComponent } from './clientes/clientes-form/clientes-form.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, SidebarComponent, HomeComponent],
+  imports: [RouterOutlet, NavbarComponent, SidebarComponent, HomeComponent, ClientesFormComponent, RouterModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit {
   title = 'app-interface';
 
-  constructor(private renderer: Renderer2, private el: ElementRef) { }
-  path = window.location.href;
-  links = this.el.nativeElement.querySelectorAll("#layoutSidenav_nav .sb-sidenav a.nav-link");
+  constructor(private el: ElementRef) {}
 
   ngAfterViewInit() {
-    // Adicionar estado ativo aos links de navegação lateral
+    const path = window.location.href;
 
+    // Seleciona os links como uma NodeList de HTMLAnchorElement sem anotação explícita de tipo
+    const links = this.el.nativeElement.querySelectorAll("#layoutSidenav_nav .sb-sidenav a.nav-link") as NodeListOf<HTMLAnchorElement>;
 
-    this.links.forEach((link: HTMLAnchorElement) => {
-      const anchor = link as HTMLAnchorElement;
-      if (anchor.href === this.path) {
-        this.renderer.addClass(anchor, 'active');
-      }
-    });
+    (function ($) {
+      "use strict";
 
-    // Alternar a navegação lateral
-    const sidebarToggle = this.el.nativeElement.querySelector("#sidebarToggle");
-    if (sidebarToggle) {
-      this.renderer.listen(sidebarToggle, 'click', (e) => {
-        e.preventDefault();
-        if (document.body.classList.contains('sb-sidenav-toggled')) {
-          this.renderer.removeClass(document.body, 'sb-sidenav-toggled');
-        } else {
-          this.renderer.addClass(document.body, 'sb-sidenav-toggled');
+      // Adiciona o estado ativo aos links de navegação lateral
+      $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function () {
+        if ((this as HTMLAnchorElement).href === path) {
+          $(this).addClass("active");
         }
       });
-    }
+
+      // Alterna a navegação lateral
+      $("#sidebarToggle").on("click", function (e) {
+        e.preventDefault();
+        $("body").toggleClass("sb-sidenav-toggled");
+      });
+    })(jQuery);
   }
 }
