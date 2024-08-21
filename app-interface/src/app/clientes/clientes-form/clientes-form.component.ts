@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './clientes-form.component.css'
 })
 export class ClientesFormComponent implements OnInit {
+
   cliente = {
     nome: 'Fulano',
     cpf: '001',
@@ -23,6 +24,8 @@ export class ClientesFormComponent implements OnInit {
   clicar() {
     console.log(this.cliente);
   }
-
+  onSubmit() {
+    console.log(this.cliente);
+  }
 
 }
