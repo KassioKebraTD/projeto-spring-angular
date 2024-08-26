@@ -5,19 +5,21 @@ import { SidebarComponent } from './template/sidebar/sidebar.component';
 import { HomeComponent } from "./home/home.component";
 import jQuery from 'jquery';
 import { ClientesFormComponent } from './clientes/clientes-form/clientes-form.component';
+import { ClientesService } from './clientes.service';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, SidebarComponent, HomeComponent, ClientesFormComponent, RouterModule],
+  providers: [ClientesService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit {
   title = 'app-interface';
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) { }
 
   ngAfterViewInit() {
     const path = window.location.href;

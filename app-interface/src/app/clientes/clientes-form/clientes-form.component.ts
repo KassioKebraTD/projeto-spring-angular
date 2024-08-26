@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ClientesService } from '../../clientes.service';
+import { Cliente } from '../clientes';
 
 @Component({
   selector: 'app-clientes-form',
@@ -11,14 +13,11 @@ import { FormsModule } from '@angular/forms';
 })
 export class ClientesFormComponent implements OnInit {
 
-  cliente = {
-    nome: 'Fulano',
-    cpf: '001',
-    dataCadastro: new Date(),
-    id: 0
-  };
+  cliente :Cliente;
 
-  constructor() { }
+  constructor(private service : ClientesService) {
+    this.cliente = service.getCliente();
+   }
 
   ngOnInit(): void { }
   clicar() {
