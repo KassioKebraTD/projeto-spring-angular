@@ -13,18 +13,24 @@ import { Cliente } from '../clientes';
 })
 export class ClientesFormComponent implements OnInit {
 
-  cliente :Cliente;
+  cliente: Cliente;
 
-  constructor(private service : ClientesService) {
-    this.cliente = service.getCliente();
-   }
+  constructor(private service: ClientesService) {
+    this.cliente = new Cliente();
+    this.cliente.nome = 'Felippe';
+    this.cliente.cpf = '03493988109'
+  }
 
   ngOnInit(): void { }
   clicar() {
     console.log(this.cliente);
   }
   onSubmit() {
-    console.log(this.cliente);
+    this.service
+      .salvar(this.cliente)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
 
 }
